@@ -1,0 +1,60 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "olympics21-ADF"
+		},
+		"Athletes_Dest_accountKey": {
+			"value": ""
+		},
+		"Coaches_dest_accountKey": {
+			"value": ""
+		},
+		"EntriesGender_Dest_accountKey": {
+			"value": ""
+		},
+		"Medals_Dest_accountKey": {
+			"value": ""
+		},
+		"Teams_Dest_accountKey": {
+			"value": ""
+		},
+		"Athletes_Dest_properties_typeProperties_url": {
+			"value": "https://olympicsdata21.dfs.core.windows.net/"
+		},
+		"Athletes_Source_properties_typeProperties_url": {
+			"value": "https://raw.githubusercontent.com/amukhgoel/OlympicDataAnalysis/main/Athletes.csv"
+		},
+		"Coaches_Src_properties_typeProperties_url": {
+			"value": "https://raw.githubusercontent.com/amukhgoel/OlympicDataAnalysis/main/Coaches.csv"
+		},
+		"Coaches_dest_properties_typeProperties_url": {
+			"value": "https://olympicsdata21.dfs.core.windows.net/"
+		},
+		"EntriesGender_Dest_properties_typeProperties_url": {
+			"value": "https://olympicsdata21.dfs.core.windows.net/"
+		},
+		"EntriesGender_Src_properties_typeProperties_url": {
+			"value": "https://raw.githubusercontent.com/amukhgoel/OlympicDataAnalysis/main/EntriesGender.csv"
+		},
+		"Medals_Dest_properties_typeProperties_url": {
+			"value": "https://olympicsdata21.dfs.core.windows.net/"
+		},
+		"Medals_Src_properties_typeProperties_url": {
+			"value": "https://raw.githubusercontent.com/amukhgoel/OlympicDataAnalysis/main/Medals.csv"
+		},
+		"Teams_Dest_properties_typeProperties_url": {
+			"value": "https://olympicsdata21.dfs.core.windows.net/"
+		},
+		"Teams_Src_properties_typeProperties_url": {
+			"value": "https://raw.githubusercontent.com/amukhgoel/OlympicDataAnalysis/main/Teams.csv"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}

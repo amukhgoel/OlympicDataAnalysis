@@ -1,0 +1,246 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "olympics21-ADF"
+		},
+		"Athletes_Dest_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'Athletes_Dest'"
+		},
+		"Coaches_dest_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'Coaches_dest'"
+		},
+		"EntriesGender_Dest_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'EntriesGender_Dest'"
+		},
+		"Medals_Dest_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'Medals_Dest'"
+		},
+		"Teams_Dest_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'Teams_Dest'"
+		},
+		"Athletes_Dest_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://olympicsdata21.dfs.core.windows.net/"
+		},
+		"Athletes_Source_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://raw.githubusercontent.com/amukhgoel/OlympicDataAnalysis/main/Athletes.csv"
+		},
+		"Coaches_Src_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://raw.githubusercontent.com/amukhgoel/OlympicDataAnalysis/main/Coaches.csv"
+		},
+		"Coaches_dest_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://olympicsdata21.dfs.core.windows.net/"
+		},
+		"EntriesGender_Dest_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://olympicsdata21.dfs.core.windows.net/"
+		},
+		"EntriesGender_Src_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://raw.githubusercontent.com/amukhgoel/OlympicDataAnalysis/main/EntriesGender.csv"
+		},
+		"Medals_Dest_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://olympicsdata21.dfs.core.windows.net/"
+		},
+		"Medals_Src_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://raw.githubusercontent.com/amukhgoel/OlympicDataAnalysis/main/Medals.csv"
+		},
+		"Teams_Dest_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://olympicsdata21.dfs.core.windows.net/"
+		},
+		"Teams_Src_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://raw.githubusercontent.com/amukhgoel/OlympicDataAnalysis/main/Teams.csv"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/Athletes_Dest')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Destination Linked Service for Athletes File",
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('Athletes_Dest_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('Athletes_Dest_accountKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Athletes_Source')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Source Linked Service for Athletes dataset",
+				"annotations": [],
+				"type": "HttpServer",
+				"typeProperties": {
+					"url": "[parameters('Athletes_Source_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Anonymous"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Coaches_Src')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Source Linked Service for Coaches File",
+				"annotations": [],
+				"type": "HttpServer",
+				"typeProperties": {
+					"url": "[parameters('Coaches_Src_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Anonymous"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Coaches_dest')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Destination Linked Service for Coaches",
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('Coaches_dest_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('Coaches_dest_accountKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/EntriesGender_Dest')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Destination Linked Service for EntriesGender dataset",
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('EntriesGender_Dest_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('EntriesGender_Dest_accountKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/EntriesGender_Src')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Source Linked Service for EntriesGender dataset",
+				"annotations": [],
+				"type": "HttpServer",
+				"typeProperties": {
+					"url": "[parameters('EntriesGender_Src_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Anonymous"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Medals_Dest')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Destination Linked Service for Medals Dataset",
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('Medals_Dest_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('Medals_Dest_accountKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Medals_Src')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Source Linked Service for Medals dataset",
+				"annotations": [],
+				"type": "HttpServer",
+				"typeProperties": {
+					"url": "[parameters('Medals_Src_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Anonymous"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Teams_Dest')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Destination Linked Service for Teams Dataset",
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('Teams_Dest_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('Teams_Dest_accountKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Teams_Src')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Source Linked Service for Teams Dataset",
+				"annotations": [],
+				"type": "HttpServer",
+				"typeProperties": {
+					"url": "[parameters('Teams_Src_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Anonymous"
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}
