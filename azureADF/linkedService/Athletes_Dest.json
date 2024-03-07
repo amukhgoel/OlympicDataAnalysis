@@ -1,0 +1,13 @@
+{
+	"name": "Athletes_Dest",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"description": "Destination Linked Service for Athletes File",
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://olympicsdata21.dfs.core.windows.net/",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQEEzOTExNjk3LUIzNTEtNDg1My04MTFDLUI2Rjg3NTNBNkIzNl83MzhjNTEyZS1mYTNmLTQyMzQtODBlMi1hY2IzNGU3N2E0ZTciDQp9"
+		}
+	}
+}
