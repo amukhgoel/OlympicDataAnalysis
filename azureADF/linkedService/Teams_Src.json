@@ -1,0 +1,13 @@
+{
+	"name": "Teams_Src",
+	"properties": {
+		"description": "Source Linked Service for Teams Dataset",
+		"annotations": [],
+		"type": "HttpServer",
+		"typeProperties": {
+			"url": "https://raw.githubusercontent.com/amukhgoel/OlympicDataAnalysis/main/Teams.csv",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "Anonymous"
+		}
+	}
+}
