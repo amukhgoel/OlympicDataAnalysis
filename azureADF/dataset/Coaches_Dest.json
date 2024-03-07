@@ -1,0 +1,27 @@
+{
+	"name": "Coaches_Dest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Coaches_dest",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Destination"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "coaches.csv",
+				"folderPath": "raw",
+				"fileSystem": "olympics21"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
