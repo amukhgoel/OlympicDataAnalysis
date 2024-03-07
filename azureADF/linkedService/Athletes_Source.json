@@ -1,0 +1,13 @@
+{
+	"name": "Athletes_Source",
+	"properties": {
+		"description": "Source Linked Service for Athletes dataset",
+		"annotations": [],
+		"type": "HttpServer",
+		"typeProperties": {
+			"url": "https://raw.githubusercontent.com/amukhgoel/OlympicDataAnalysis/main/Athletes.csv",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "Anonymous"
+		}
+	}
+}
