@@ -1,0 +1,13 @@
+{
+	"name": "Coaches_Src",
+	"properties": {
+		"description": "Source Linked Service for Coaches File",
+		"annotations": [],
+		"type": "HttpServer",
+		"typeProperties": {
+			"url": "https://raw.githubusercontent.com/amukhgoel/OlympicDataAnalysis/main/Coaches.csv",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "Anonymous"
+		}
+	}
+}
