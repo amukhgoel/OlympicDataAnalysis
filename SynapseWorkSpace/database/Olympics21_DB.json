@@ -1,0 +1,25 @@
+{
+	"name": "Olympics21_DB",
+	"properties": {
+		"Name": "Olympics21_DB",
+		"EntityType": "DATABASE",
+		"Origin": {
+			"Type": "SPARK"
+		},
+		"Properties": {
+			"IsSyMSCDMDatabase": true
+		},
+		"Source": {
+			"Provider": "ADLS",
+			"Location": "abfss://olympics21@olympicsdata21.dfs.core.windows.net/Olympics21_DB",
+			"Properties": {
+				"FormatType": "csv",
+				"LinkedServiceName": "olympics21-analytics-workspace-WorkspaceDefaultStorage"
+			}
+		},
+		"PublishStatus": "PUBLISHED",
+		"ObjectVersion": 1,
+		"ObjectId": "035b9fc0-9cc1-4941-beb4-06ba7e4891a8"
+	},
+	"type": "DATABASE"
+}
