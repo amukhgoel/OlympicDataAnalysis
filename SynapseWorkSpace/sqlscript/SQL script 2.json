@@ -1,0 +1,17 @@
+{
+	"name": "SQL script 2",
+	"properties": {
+		"content": {
+			"query": "-- Percentage of Participants won the medals \nWITH TotalAthletesPerCountry AS \n(\n    SELECT A.NOC as Country,CAST (COUNT(A.Name) AS NUMERIC) as Total_Athletes_Country\n    FROM athletes A \n    GROUP BY NOC\n)\nSELECT A.Country, A.Total_Athletes_Country, B.Total, \n       (B.Total/A.Total_Athletes_Country * 100) Percentage_Medals_Participated,\n        DENSE_RANK() OVER (ORDER BY (B.Total/A.Total_Athletes_Country * 100) DESC) AS\n        Ranked_by_percentage\nFROM TotalAthletesPerCountry A JOIN medals B\nON A.Country = B.Team_NOC\n;",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "Olympics21_DB",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

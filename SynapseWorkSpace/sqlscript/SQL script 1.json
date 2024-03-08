@@ -1,0 +1,17 @@
+{
+	"name": "SQL script 1",
+	"properties": {
+		"content": {
+			"query": "-- Let's view the athletes data\nSelect TOP 5 * from athletes;\n\n-- Lets say we want to calculate total number of athletes each country.\n-- We will order the results by Athletes count \nSELECT NOC as Country, COUNT(Name) as Total_Athletes\nFROM athletes\nGROUP BY NOC\nORDER BY 2 DESC;\n\n-- Avg number of entries by Gender for each discipline\nSELECT Discipline, AVG(Female) as Avg_Females, AVG(Male) as Avg_Males\nFROM entriesGender\nGROUP BY Discipline\nORDER BY 2,3;\n\n-- Total number of coaches for each discipline\nSELECT Discipline, COUNT(DISTINCT Name) as Total_Coaches\nFROM coaches\nGROUP BY Discipline\nORDER BY 2;\n-- Total Number of events per country\nSelect Name, COUNT(Event) AS Total_Events\nFROM teams\nGROUP BY Name\nORDER BY 2;\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "Olympics21_DB",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
