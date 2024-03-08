@@ -94,6 +94,46 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/SQL script 1')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"content": {
+					"query": "-- Let's view the athletes data\nSelect TOP 5 * from athletes;\n\n-- Lets say we want to calculate total number of athletes each country.\n-- We will order the results by Athletes count \nSELECT NOC as Country, COUNT(Name) as Total_Athletes\nFROM athletes\nGROUP BY NOC\nORDER BY 2 DESC;\n\n-- Avg number of entries by Gender for each discipline\nSELECT Discipline, AVG(Female) as Avg_Females, AVG(Male) as Avg_Males\nFROM entriesGender\nGROUP BY Discipline\nORDER BY 2,3;\n\n-- Total number of coaches for each discipline\nSELECT Discipline, COUNT(DISTINCT Name) as Total_Coaches\nFROM coaches\nGROUP BY Discipline\nORDER BY 2;\n-- Total Number of events per country\nSelect Name, COUNT(Event) AS Total_Events\nFROM teams\nGROUP BY Name\nORDER BY 2;\n",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "Olympics21_DB",
+						"poolName": "Built-in"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/SQL script 2')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"content": {
+					"query": "-- Percentage of Participants won the medals \nWITH TotalAthletesPerCountry AS \n(\n    SELECT A.NOC as Country,CAST (COUNT(A.Name) AS NUMERIC) as Total_Athletes_Country\n    FROM athletes A \n    GROUP BY NOC\n)\nSELECT A.Country, A.Total_Athletes_Country, B.Total, \n       (B.Total/A.Total_Athletes_Country * 100) Percentage_Medals_Participated,\n        DENSE_RANK() OVER (ORDER BY (B.Total/A.Total_Athletes_Country * 100) DESC) AS\n        Ranked_by_percentage\nFROM TotalAthletesPerCountry A JOIN medals B\nON A.Country = B.Team_NOC\n;",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "Olympics21_DB",
+						"poolName": "Built-in"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/Olympics21_DB')]",
 			"type": "Microsoft.Synapse/workspaces/databases",
 			"apiVersion": "2019-06-01-preview",
@@ -153,8 +193,7 @@
 											"Properties": {
 												"HIVE_TYPE_STRING": "string"
 											}
-										},
-										"DeltaFormatInvalidMessages": []
+										}
 									},
 									{
 										"Name": "NOC",
@@ -166,8 +205,7 @@
 											"Properties": {
 												"HIVE_TYPE_STRING": "string"
 											}
-										},
-										"DeltaFormatInvalidMessages": []
+										}
 									},
 									{
 										"Name": "Discipline",
@@ -179,8 +217,7 @@
 											"Properties": {
 												"HIVE_TYPE_STRING": "string"
 											}
-										},
-										"DeltaFormatInvalidMessages": []
+										}
 									}
 								],
 								"Format": {
@@ -191,8 +228,8 @@
 									"Properties": {
 										"path": "abfss://olympics21@olympicsdata21.dfs.core.windows.net/transformed/athletes/part-00000-tid-2953360284307041936-1fac660a-cdbc-4ff3-904a-29272d1abfe1-24-1-c000.csv",
 										"delimiter": ",",
-										"multiLine": "false",
 										"firstRowAsHeader": "true",
+										"multiLine": "false",
 										"serialization.format": "1",
 										"FormatTypeSetToDatabaseDefault": false,
 										"header": "true"
@@ -254,8 +291,7 @@
 											"Properties": {
 												"HIVE_TYPE_STRING": "string"
 											}
-										},
-										"DeltaFormatInvalidMessages": []
+										}
 									},
 									{
 										"Name": "NOC",
@@ -267,8 +303,7 @@
 											"Properties": {
 												"HIVE_TYPE_STRING": "string"
 											}
-										},
-										"DeltaFormatInvalidMessages": []
+										}
 									},
 									{
 										"Name": "Discipline",
@@ -280,8 +315,7 @@
 											"Properties": {
 												"HIVE_TYPE_STRING": "string"
 											}
-										},
-										"DeltaFormatInvalidMessages": []
+										}
 									},
 									{
 										"Name": "Event",
@@ -293,8 +327,7 @@
 											"Properties": {
 												"HIVE_TYPE_STRING": "string"
 											}
-										},
-										"DeltaFormatInvalidMessages": []
+										}
 									}
 								],
 								"Format": {
@@ -305,8 +338,8 @@
 									"Properties": {
 										"path": "abfss://olympics21@olympicsdata21.dfs.core.windows.net/transformed/coaches/part-00000-tid-9095295039126745483-bf0ca544-aed1-435b-93cc-bfa08ae2853a-26-1-c000.csv",
 										"delimiter": ",",
-										"multiLine": "false",
 										"firstRowAsHeader": "true",
+										"multiLine": "false",
 										"serialization.format": "1",
 										"FormatTypeSetToDatabaseDefault": false,
 										"header": "true"
@@ -368,8 +401,7 @@
 											"Properties": {
 												"HIVE_TYPE_STRING": "string"
 											}
-										},
-										"DeltaFormatInvalidMessages": []
+										}
 									},
 									{
 										"Name": "Female",
@@ -380,8 +412,7 @@
 											"Properties": {
 												"HIVE_TYPE_STRING": "long"
 											}
-										},
-										"DeltaFormatInvalidMessages": []
+										}
 									},
 									{
 										"Name": "Male",
@@ -392,8 +423,7 @@
 											"Properties": {
 												"HIVE_TYPE_STRING": "long"
 											}
-										},
-										"DeltaFormatInvalidMessages": []
+										}
 									},
 									{
 										"Name": "Total",
@@ -404,8 +434,7 @@
 											"Properties": {
 												"HIVE_TYPE_STRING": "long"
 											}
-										},
-										"DeltaFormatInvalidMessages": []
+										}
 									}
 								],
 								"Format": {
@@ -416,8 +445,8 @@
 									"Properties": {
 										"path": "abfss://olympics21@olympicsdata21.dfs.core.windows.net/transformed/entriesGender/part-00000-tid-410060180637969804-9eb23997-32a9-4e44-8707-164211fe336a-28-1-c000.csv",
 										"delimiter": ",",
-										"multiLine": "false",
 										"firstRowAsHeader": "true",
+										"multiLine": "false",
 										"serialization.format": "1",
 										"FormatTypeSetToDatabaseDefault": false,
 										"header": "true"
@@ -478,8 +507,7 @@
 											"Properties": {
 												"HIVE_TYPE_STRING": "long"
 											}
-										},
-										"DeltaFormatInvalidMessages": []
+										}
 									},
 									{
 										"Name": "Team_NOC",
@@ -491,8 +519,7 @@
 											"Properties": {
 												"HIVE_TYPE_STRING": "string"
 											}
-										},
-										"DeltaFormatInvalidMessages": []
+										}
 									},
 									{
 										"Name": "Gold",
@@ -503,8 +530,7 @@
 											"Properties": {
 												"HIVE_TYPE_STRING": "long"
 											}
-										},
-										"DeltaFormatInvalidMessages": []
+										}
 									},
 									{
 										"Name": "Silver",
@@ -515,8 +541,7 @@
 											"Properties": {
 												"HIVE_TYPE_STRING": "long"
 											}
-										},
-										"DeltaFormatInvalidMessages": []
+										}
 									},
 									{
 										"Name": "Bronze",
@@ -527,8 +552,7 @@
 											"Properties": {
 												"HIVE_TYPE_STRING": "long"
 											}
-										},
-										"DeltaFormatInvalidMessages": []
+										}
 									},
 									{
 										"Name": "Total",
@@ -539,8 +563,7 @@
 											"Properties": {
 												"HIVE_TYPE_STRING": "long"
 											}
-										},
-										"DeltaFormatInvalidMessages": []
+										}
 									},
 									{
 										"Name": "Rank_by_Total",
@@ -551,8 +574,7 @@
 											"Properties": {
 												"HIVE_TYPE_STRING": "long"
 											}
-										},
-										"DeltaFormatInvalidMessages": []
+										}
 									}
 								],
 								"Format": {
@@ -563,8 +585,8 @@
 									"Properties": {
 										"path": "abfss://olympics21@olympicsdata21.dfs.core.windows.net/transformed/medals/part-00000-tid-2330790156174381393-db214dc9-926b-44a1-99c6-bd6dff3a8d65-30-1-c000.csv",
 										"delimiter": ",",
-										"multiLine": "false",
 										"firstRowAsHeader": "true",
+										"multiLine": "false",
 										"serialization.format": "1",
 										"FormatTypeSetToDatabaseDefault": false,
 										"header": "true"
@@ -626,8 +648,7 @@
 											"Properties": {
 												"HIVE_TYPE_STRING": "string"
 											}
-										},
-										"DeltaFormatInvalidMessages": []
+										}
 									},
 									{
 										"Name": "Discipline",
@@ -639,8 +660,7 @@
 											"Properties": {
 												"HIVE_TYPE_STRING": "string"
 											}
-										},
-										"DeltaFormatInvalidMessages": []
+										}
 									},
 									{
 										"Name": "NOC",
@@ -652,8 +672,7 @@
 											"Properties": {
 												"HIVE_TYPE_STRING": "string"
 											}
-										},
-										"DeltaFormatInvalidMessages": []
+										}
 									},
 									{
 										"Name": "Event",
@@ -665,8 +684,7 @@
 											"Properties": {
 												"HIVE_TYPE_STRING": "string"
 											}
-										},
-										"DeltaFormatInvalidMessages": []
+										}
 									}
 								],
 								"Format": {
@@ -677,8 +695,8 @@
 									"Properties": {
 										"path": "abfss://olympics21@olympicsdata21.dfs.core.windows.net/transformed/teams/part-00000-tid-495746772640669735-096ab41f-4e31-4b16-8b28-602b6122475b-32-1-c000.csv",
 										"delimiter": ",",
-										"multiLine": "false",
 										"firstRowAsHeader": "true",
+										"multiLine": "false",
 										"serialization.format": "1",
 										"FormatTypeSetToDatabaseDefault": false,
 										"header": "true"
